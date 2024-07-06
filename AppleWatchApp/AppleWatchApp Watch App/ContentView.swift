@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State var timeRemaining = 90
-  @State private var currentDate = Date.now
-  let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
-  @State var vibrated = false
+  @State private var timeRemaining = 90
+  @State private var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
+  @State private var periodsDone = 0
+  @State private var vibrated = false
 
   var body: some View {
     VStack {
@@ -20,13 +19,27 @@ struct ContentView: View {
         .imageScale(.large)
         .foregroundStyle(.tint)
 
-      Text("\(currentDate)")
-
       Text("Time Left: \(timeRemaining)s")
+      Text("Periods Done: \(periodsDone)")
+      Text("\(periodsDone.isMultiple(of: 2) ? "Walk" : "Run")")
 
       Button(
         action: {
+          timer.connect()
           timeRemaining = 90
+          periodsDone += 1
+        },
+        label: {
+          Text(periodsDone == 0 ? "Start" : "Skip")
+        }
+      )
+
+      Button(
+        action: {
+          timer = Timer.publish(every: 1, on: .main, in: .common)
+          timeRemaining = 90
+          periodsDone = 0
+          vibrated = false
         },
         label: {
           Text("Reset")
@@ -34,7 +47,7 @@ struct ContentView: View {
       )
     }
     .padding()
-    .onReceive(timer) { input in
+    .onReceive(timer) { _ in
       if timeRemaining > 0 {
         vibrated = false
         timeRemaining -= 1
@@ -42,8 +55,9 @@ struct ContentView: View {
       if timeRemaining <= 0 && !vibrated {
         WKInterfaceDevice.current().play(.failure)
         vibrated = true
+        timeRemaining = 90
+        periodsDone += 1
       }
-      currentDate = input
     }
   }
 }
