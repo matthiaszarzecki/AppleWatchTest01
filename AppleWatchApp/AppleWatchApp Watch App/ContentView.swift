@@ -5,49 +5,66 @@
 //  Created by Matthias Zarzecki on 30.06.24.
 //
 
+import Combine
 import SwiftUI
 
 struct ContentView: View {
   @State private var timeRemaining = 90
-  @State private var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
   @State private var periodsDone = 0
   @State private var vibrated = false
 
+  @State private var timer: AnyCancellable?
+
   var body: some View {
     VStack {
-      Image(systemName: "timer")
-        .imageScale(.large)
-        .foregroundStyle(.tint)
+      HStack {
+        Image(systemName: "timer")
+          .imageScale(.large)
+          .foregroundStyle(.green)
 
-      Text("Time Left: \(timeRemaining)s")
-      Text("Periods Done: \(periodsDone)")
-      Text("\(periodsDone.isMultiple(of: 2) ? "Walk" : "Run")")
+        VStack {
+          Text("Time Left: \(timeRemaining)s")
+          Text("Interval: \(periodsDone + 1)/16")
 
-      Button(
-        action: {
-          timer.connect()
-          timeRemaining = 90
-          periodsDone += 1
-        },
-        label: {
-          Text(periodsDone == 0 ? "Start" : "Skip")
+          if periodsDone.isMultiple(of: 2) {
+            Text("Walk")
+              .foregroundStyle(.red)
+          } else {
+            Text("Run")
+              .foregroundStyle(.green)
+          }
         }
-      )
+      }
+      HStack {
+        Button(
+          action: {
+            //timer = Timer.publish(every: 1, on: .main, in: .common)
+            timer?.cancel()
+            timeRemaining = 90
+            periodsDone = 0
+            vibrated = false
+          },
+          label: {
+            Text("Reset")
+          }
+        )
 
-      Button(
-        action: {
-          timer = Timer.publish(every: 1, on: .main, in: .common)
-          timeRemaining = 90
-          periodsDone = 0
-          vibrated = false
-        },
-        label: {
-          Text("Reset")
-        }
-      )
+        Button(
+          action: {
+            assignTimer()
+            timeRemaining = 90
+            periodsDone += 1
+            vibrated = false
+            WKInterfaceDevice.current().play(.failure)
+          },
+          label: {
+            Text(periodsDone == 0 ? "Start" : "Skip")
+          }
+        )
+      }
     }
     .padding()
-    .onReceive(timer) { _ in
+    /*.onReceive(timer) { _ in
       if timeRemaining > 0 {
         vibrated = false
         timeRemaining -= 1
@@ -58,7 +75,25 @@ struct ContentView: View {
         timeRemaining = 90
         periodsDone += 1
       }
-    }
+    }*/
+  }
+
+  private func assignTimer() {
+    timer = Timer
+      .publish(every: 1, on: .main, in: .common)
+      .autoconnect()
+      .sink { value in
+        if timeRemaining > 0 {
+          vibrated = false
+          timeRemaining -= 1
+        }
+        if timeRemaining <= 0 && !vibrated {
+          WKInterfaceDevice.current().play(.failure)
+          vibrated = true
+          timeRemaining = 90
+          periodsDone += 1
+        }
+      }
   }
 }
 
