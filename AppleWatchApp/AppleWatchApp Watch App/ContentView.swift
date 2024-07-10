@@ -43,6 +43,7 @@ struct ContentView: View {
             timeRemaining = 90
             periodsDone = 0
             vibrated = false
+            WKInterfaceDevice.current().play(.failure)
           },
           label: {
             Text("Reset")
@@ -51,11 +52,13 @@ struct ContentView: View {
 
         Button(
           action: {
-            assignTimer()
+            if periodsDone == 0 {
+              assignTimer()
+            }
             timeRemaining = 90
             periodsDone += 1
             vibrated = false
-            WKInterfaceDevice.current().play(.failure)
+            WKInterfaceDevice.current().play(.notification)
           },
           label: {
             Text(periodsDone == 0 ? "Start" : "Skip")
@@ -88,7 +91,7 @@ struct ContentView: View {
           timeRemaining -= 1
         }
         if timeRemaining <= 0 && !vibrated {
-          WKInterfaceDevice.current().play(.failure)
+          WKInterfaceDevice.current().play(.notification)
           vibrated = true
           timeRemaining = 90
           periodsDone += 1
