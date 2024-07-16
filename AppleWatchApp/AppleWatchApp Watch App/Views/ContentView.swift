@@ -14,6 +14,7 @@ struct ContentView: View {
   @State private var vibrated = false
 
   @State private var timer: AnyCancellable?
+  @State private var dataPoints: [Date] = []
 
   var body: some View {
     VStack {
@@ -43,6 +44,7 @@ struct ContentView: View {
             timeRemaining = 90
             periodsDone = 0
             vibrated = false
+            dataPoints = []
             WKInterfaceDevice.current().play(.failure)
           },
           label: {
@@ -65,6 +67,8 @@ struct ContentView: View {
           }
         )
       }
+
+      Text("DataPoints: \(dataPoints.count)")
     }
     .padding()
     /*.onReceive(timer) { _ in
@@ -87,10 +91,13 @@ struct ContentView: View {
       .autoconnect()
       .sink { value in
         if timeRemaining > 0 {
+          // Regular Interval - Count Down
           vibrated = false
           timeRemaining -= 1
+          dataPoints.append(Date())
         }
         if timeRemaining <= 0 && !vibrated {
+          // Timer Reached Zero - Reset
           WKInterfaceDevice.current().play(.notification)
           vibrated = true
           timeRemaining = 90
