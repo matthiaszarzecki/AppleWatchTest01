@@ -9,6 +9,10 @@ import Foundation
 
 struct TrainingDay {
   let periods: [Period]
+
+  var numberOfRunPeriods: Int {
+    periods.filter { $0.type == .run }.count
+  }
 }
 
 extension TrainingDay {

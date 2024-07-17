@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		6E2C01F12C31DF8500B09C5F /* RunApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6E2C01F02C31DF8500B09C5F /* RunApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6E2C01F62C31DF8500B09C5F /* AppleWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C01F52C31DF8500B09C5F /* AppleWatchAppApp.swift */; };
-		6E2C01F82C31DF8500B09C5F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C01F72C31DF8500B09C5F /* ContentView.swift */; };
+		6E2C01F82C31DF8500B09C5F /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C01F72C31DF8500B09C5F /* RunView.swift */; };
 		6E2C01FA2C31DF8600B09C5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2C01F92C31DF8600B09C5F /* Assets.xcassets */; };
 		6E2C01FD2C31DF8600B09C5F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2C01FC2C31DF8600B09C5F /* Preview Assets.xcassets */; };
 		6E2C02072C31DF8700B09C5F /* AppleWatchApp_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C02062C31DF8700B09C5F /* AppleWatchApp_Watch_AppTests.swift */; };
@@ -17,6 +17,8 @@
 		6E2C02132C31DF8700B09C5F /* AppleWatchApp_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C02122C31DF8700B09C5F /* AppleWatchApp_Watch_AppUITestsLaunchTests.swift */; };
 		6E42A45E2C468ACC00A09911 /* TrainingDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E42A45D2C468ACC00A09911 /* TrainingDay.swift */; };
 		6E42A4602C468ADE00A09911 /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E42A45F2C468ADE00A09911 /* Period.swift */; };
+		6E7F97732C47B81F009496B1 /* PeriodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7F97722C47B81F009496B1 /* PeriodType.swift */; };
+		6E7F97752C47B842009496B1 /* CurrentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7F97742C47B842009496B1 /* CurrentSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +63,7 @@
 		6E2C01EA2C31DF8500B09C5F /* AppleWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C01F02C31DF8500B09C5F /* RunApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C01F52C31DF8500B09C5F /* AppleWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchAppApp.swift; sourceTree = "<group>"; };
-		6E2C01F72C31DF8500B09C5F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6E2C01F72C31DF8500B09C5F /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
 		6E2C01F92C31DF8600B09C5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E2C01FC2C31DF8600B09C5F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6E2C02022C31DF8700B09C5F /* AppleWatchApp Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AppleWatchApp Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +73,8 @@
 		6E2C02122C31DF8700B09C5F /* AppleWatchApp_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchApp_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6E42A45D2C468ACC00A09911 /* TrainingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDay.swift; sourceTree = "<group>"; };
 		6E42A45F2C468ADE00A09911 /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
+		6E7F97722C47B81F009496B1 /* PeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodType.swift; sourceTree = "<group>"; };
+		6E7F97742C47B842009496B1 /* CurrentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,7 +162,9 @@
 		6E42A4612C468BA500A09911 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6E7F97742C47B842009496B1 /* CurrentSession.swift */,
 				6E42A45F2C468ADE00A09911 /* Period.swift */,
+				6E7F97722C47B81F009496B1 /* PeriodType.swift */,
 				6E42A45D2C468ACC00A09911 /* TrainingDay.swift */,
 			);
 			path = Models;
@@ -167,8 +173,8 @@
 		6E42A4622C468BB100A09911 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				6E2C01FB2C31DF8600B09C5F /* Preview Content */,
 				6E2C01F92C31DF8600B09C5F /* Assets.xcassets */,
+				6E2C01FB2C31DF8600B09C5F /* Preview Content */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -176,7 +182,7 @@
 		6E42A4632C468BC400A09911 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6E2C01F72C31DF8500B09C5F /* ContentView.swift */,
+				6E2C01F72C31DF8500B09C5F /* RunView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -347,10 +353,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E2C01F82C31DF8500B09C5F /* ContentView.swift in Sources */,
+				6E2C01F82C31DF8500B09C5F /* RunView.swift in Sources */,
 				6E2C01F62C31DF8500B09C5F /* AppleWatchAppApp.swift in Sources */,
 				6E42A4602C468ADE00A09911 /* Period.swift in Sources */,
 				6E42A45E2C468ACC00A09911 /* TrainingDay.swift in Sources */,
+				6E7F97752C47B842009496B1 /* CurrentSession.swift in Sources */,
+				6E7F97732C47B81F009496B1 /* PeriodType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

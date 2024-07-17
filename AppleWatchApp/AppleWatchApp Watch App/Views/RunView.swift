@@ -8,13 +8,13 @@
 import Combine
 import SwiftUI
 
-struct ContentView: View {
+struct RunView: View {
   @State private var timeRemaining = 90
   @State private var periodsDone = 0
   @State private var vibrated = false
 
   @State private var timer: AnyCancellable?
-  @State private var dataPoints: [Date] = []
+  @State private var currentSession = CurrentSession()
 
   var body: some View {
     VStack {
@@ -44,7 +44,7 @@ struct ContentView: View {
             timeRemaining = 90
             periodsDone = 0
             vibrated = false
-            dataPoints = []
+            currentSession.dataPoints = []
             WKInterfaceDevice.current().play(.failure)
           },
           label: {
@@ -68,7 +68,7 @@ struct ContentView: View {
         )
       }
 
-      Text("DataPoints: \(dataPoints.count)")
+      Text("DataPoints: \(currentSession.dataPoints.count)")
     }
     .padding()
     /*.onReceive(timer) { _ in
@@ -94,7 +94,7 @@ struct ContentView: View {
           // Regular Interval - Count Down
           vibrated = false
           timeRemaining -= 1
-          dataPoints.append(Date())
+          currentSession.dataPoints.append(Date())
         }
         if timeRemaining <= 0 && !vibrated {
           // Timer Reached Zero - Reset
@@ -108,5 +108,5 @@ struct ContentView: View {
 }
 
 #Preview {
-  ContentView()
+  RunView()
 }

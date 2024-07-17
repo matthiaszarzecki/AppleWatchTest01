@@ -7,13 +7,6 @@
 
 import Foundation
 
-enum PeriodType {
-  case warmUpWalk
-  case intermediateWalk
-  case run
-  case windDownWalk
-}
-
 struct Period {
   let type: PeriodType
   let duration: TimeInterval
