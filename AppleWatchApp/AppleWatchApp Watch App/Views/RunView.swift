@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RunView: View {
   @State private var timeRemaining = 90
-  @State private var periodsDone = 0
+  @State private var currentPeriodIndex = 0
   @State private var vibrated = false
 
   @State private var timer: AnyCancellable?
@@ -25,9 +25,12 @@ struct RunView: View {
 
         VStack {
           Text("Time Left: \(timeRemaining)s")
-          Text("Interval: \(periodsDone + 1)/16")
+          Text("Interval: \(currentPeriodIndex)/\(currentSession.trainingDay.periods.count)")
 
-          if periodsDone.isMultiple(of: 2) {
+          let description = currentSession.trainingDay.periods[safe: currentPeriodIndex]?.description ?? ""
+          Text(description)
+
+          if currentPeriodIndex.isMultiple(of: 2) {
             Text("Walk")
               .foregroundStyle(.red)
           } else {
@@ -42,7 +45,7 @@ struct RunView: View {
             //timer = Timer.publish(every: 1, on: .main, in: .common)
             timer?.cancel()
             timeRemaining = 90
-            periodsDone = 0
+            currentPeriodIndex = 0
             vibrated = false
             currentSession.dataPoints = []
             WKInterfaceDevice.current().play(.failure)
@@ -54,16 +57,16 @@ struct RunView: View {
 
         Button(
           action: {
-            if periodsDone == 0 {
+            if currentPeriodIndex == 0 {
               assignTimer()
             }
             timeRemaining = 90
-            periodsDone += 1
+            currentPeriodIndex += 1
             vibrated = false
             WKInterfaceDevice.current().play(.notification)
           },
           label: {
-            Text(periodsDone == 0 ? "Start" : "Skip")
+            Text(currentPeriodIndex == 0 ? "Start" : "Skip")
           }
         )
       }
@@ -101,7 +104,7 @@ struct RunView: View {
           WKInterfaceDevice.current().play(.notification)
           vibrated = true
           timeRemaining = 90
-          periodsDone += 1
+          currentPeriodIndex += 1
         }
       }
   }

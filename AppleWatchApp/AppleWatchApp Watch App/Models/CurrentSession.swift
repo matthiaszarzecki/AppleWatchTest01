@@ -8,5 +8,7 @@
 import Foundation
 
 struct CurrentSession {
+  let trainingDay: TrainingDay = .day0
+  
   var dataPoints: [Date] = []
 }

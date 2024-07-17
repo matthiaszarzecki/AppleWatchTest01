@@ -10,4 +10,17 @@ import Foundation
 struct Period {
   let type: PeriodType
   let duration: TimeInterval
+
+  var description: String {
+    switch type {
+    case .warmUpWalk:
+      "Warm Up Walk"
+    case .intermediateWalk:
+      "Walk"
+    case .run:
+      "Run"
+    case .windDownWalk:
+      "Wind Down"
+    }
+  }
 }
