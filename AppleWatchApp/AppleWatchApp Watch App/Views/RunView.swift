@@ -35,6 +35,7 @@ struct RunView: View {
         }
       }
       HStack {
+        // Reset Button
         Button(
           action: {
             //timer = Timer.publish(every: 1, on: .main, in: .common)
@@ -55,9 +56,10 @@ struct RunView: View {
           }
         )
 
+        // Start / Skip button
         Button(
           action: {
-            if currentPeriodIndex == 0 {
+            if currentPeriodIndex == 0 && !hasStarted {
               hasStarted = true
               assignTimer()
             } else {
@@ -72,7 +74,7 @@ struct RunView: View {
             WKInterfaceDevice.current().play(.notification)
           },
           label: {
-            Text(currentPeriodIndex == 0 ? "Start" : "Skip")
+            Text(currentPeriodIndex == 0 && !hasStarted ? "Start" : "Skip")
           }
         )
       }
@@ -87,6 +89,8 @@ struct RunView: View {
       .publish(every: 1, on: .main, in: .common)
       .autoconnect()
       .sink { value in
+        print(value)
+
         if hasStarted {
           if timeRemaining > 0 {
             // Regular Interval - Count Down
