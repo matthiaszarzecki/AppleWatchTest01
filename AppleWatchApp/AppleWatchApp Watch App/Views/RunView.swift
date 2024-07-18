@@ -9,48 +9,45 @@ import Combine
 import SwiftUI
 
 struct RunView: View {
+  @State var runState: RunState = .hasNotStarted
+
   @State private var timeRemaining = 90
   @State private var currentPeriodIndex = 0
   @State private var hasVibrated = false
   @State private var currentSession = CurrentSession()
-  @State private var runState: RunState = .hasNotStarted
   @State private var currentDate: Date = .now
 
   private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
   var body: some View {
     VStack {
-      HStack {
-        Image(systemName: "timer")
-          .font(.system(size: 42))
-          .foregroundStyle(.green)
+      if runState == .hasNotStarted {
+        startSkipButton
+      } else if runState == .inProgress {
+        HStack {
+          Image(systemName: "timer")
+            .font(.system(size: 42))
+            .foregroundStyle(.green)
 
+          VStack {
+            Text("Time Left: \(timeRemaining)s")
+            Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
 
-        if runState == .hasNotStarted {
-
-        } else if runState == .inProgress {
-
-        } else if runState == .finished {
-          
-        }
-
-        VStack {
-          Text("Time Left: \(timeRemaining)s")
-          Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
-
-          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-            Text(period.description)
-              .foregroundStyle(period.color)
+            if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+              Text(period.description)
+                .foregroundStyle(period.color)
+            }
           }
         }
-      }
 
-      HStack {
+        HStack {
+          resetButton
+          startSkipButton
+        }
+      } else if runState == .finished {
         resetButton
-        startSkipButton
+        Text("DataPoints: \(currentSession.dataPoints.count)")
       }
-
-      //Text("DataPoints: \(currentSession.dataPoints.count)")
     }
     .padding()
     .onReceive(timer) { value in
@@ -109,21 +106,34 @@ struct RunView: View {
         hasVibrated = false
         timeRemaining -= 1
         currentSession.dataPoints.append(Date())
-      }
-      if timeRemaining <= 0 && !hasVibrated {
-        // Timer Reached Zero - Reset
+      } else if timeRemaining <= 0 && !hasVibrated {
+        // Timer Reached Zero - Set to next period
         WKInterfaceDevice.current().play(.notification)
         hasVibrated = true
 
-        currentPeriodIndex += 1
-        if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-          timeRemaining = Int(period.duration)
+        // TODO: See if this actually works
+        if currentPeriodIndex > currentSession.trainingDay.periods.count {
+          // Run is Finished
+          runState = .finished
+        } else {
+          currentPeriodIndex += 1
+          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+            timeRemaining = Int(period.duration)
+          }
         }
       }
     }
   }
 }
 
-#Preview {
-  RunView()
+#Preview("hasNotStarted") {
+  RunView(runState: .hasNotStarted)
+}
+
+#Preview("inProgress") {
+  RunView(runState: .inProgress)
+}
+
+#Preview("finished") {
+  RunView(runState: .finished)
 }
