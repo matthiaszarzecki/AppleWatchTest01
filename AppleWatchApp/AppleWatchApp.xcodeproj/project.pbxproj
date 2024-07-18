@@ -73,6 +73,7 @@
 		6E2C020C2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AppleWatchApp Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C02102C31DF8700B09C5F /* AppleWatchApp_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchApp_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		6E2C02122C31DF8700B09C5F /* AppleWatchApp_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchApp_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6E3DE1012C4932B80089BA6F /* AppleWatchApp-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AppleWatchApp-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6E42A45D2C468ACC00A09911 /* TrainingDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingDay.swift; sourceTree = "<group>"; };
 		6E42A45F2C468ADE00A09911 /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
 		6E7F97722C47B81F009496B1 /* PeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodType.swift; sourceTree = "<group>"; };
@@ -130,6 +131,7 @@
 		6E2C01F42C31DF8500B09C5F /* AppleWatchApp Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				6E3DE1012C4932B80089BA6F /* AppleWatchApp-Watch-App-Info.plist */,
 				6E42A4642C468BCE00A09911 /* AppDelegate */,
 				6E7F97782C47BB9D009496B1 /* Extensions */,
 				6E42A4612C468BA500A09911 /* Models */,
@@ -543,6 +545,7 @@
 				DEVELOPMENT_TEAM = QDUTEX33CU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AppleWatchApp-Watch-App-Info.plist";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -572,6 +575,7 @@
 				DEVELOPMENT_TEAM = QDUTEX33CU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AppleWatchApp-Watch-App-Info.plist";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

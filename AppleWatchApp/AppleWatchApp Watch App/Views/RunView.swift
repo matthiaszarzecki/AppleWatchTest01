@@ -13,9 +13,11 @@ struct RunView: View {
   @State private var currentPeriodIndex = 0
   @State private var vibrated = false
 
-  @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+  let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @State private var currentSession = CurrentSession()
   @State private var hasStarted = false
+
+  @State private var currentDate = Date.now
 
   var body: some View {
     VStack {
@@ -61,7 +63,7 @@ struct RunView: View {
           action: {
             if currentPeriodIndex == 0 && !hasStarted {
               hasStarted = true
-              assignTimer()
+              //assignTimer()
             } else {
               currentPeriodIndex += 1
             }
@@ -84,6 +86,7 @@ struct RunView: View {
     .padding()
     .onReceive(timer) { value in
       print(value)
+      currentDate = value
 
       if hasStarted {
         if timeRemaining > 0 {
