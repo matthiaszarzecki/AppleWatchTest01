@@ -15,6 +15,7 @@ struct RunView: View {
 
   @State private var timer: AnyCancellable?
   @State private var currentSession = CurrentSession()
+  @State private var hasStarted = false
 
   var body: some View {
     VStack {
@@ -27,15 +28,9 @@ struct RunView: View {
           Text("Time Left: \(timeRemaining)s")
           Text("Interval: \(currentPeriodIndex)/\(currentSession.trainingDay.periods.count)")
 
-          let description = currentSession.trainingDay.periods[safe: currentPeriodIndex]?.description ?? ""
-          Text(description)
-
-          if currentPeriodIndex.isMultiple(of: 2) {
-            Text("Walk")
-              .foregroundStyle(.red)
-          } else {
-            Text("Run")
-              .foregroundStyle(.green)
+          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+            Text(period.description)
+              .foregroundStyle(period.color)
           }
         }
       }
@@ -44,8 +39,13 @@ struct RunView: View {
           action: {
             //timer = Timer.publish(every: 1, on: .main, in: .common)
             timer?.cancel()
-            timeRemaining = 90
+
+            hasStarted = false
             currentPeriodIndex = 0
+            if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+              timeRemaining = Int(period.duration)
+            }
+
             vibrated = false
             currentSession.dataPoints = []
             WKInterfaceDevice.current().play(.failure)
@@ -58,10 +58,16 @@ struct RunView: View {
         Button(
           action: {
             if currentPeriodIndex == 0 {
+              hasStarted = true
               assignTimer()
+            } else {
+              currentPeriodIndex += 1
             }
-            timeRemaining = 90
-            currentPeriodIndex += 1
+
+            if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+              timeRemaining = Int(period.duration)
+            }
+
             vibrated = false
             WKInterfaceDevice.current().play(.notification)
           },
@@ -74,18 +80,6 @@ struct RunView: View {
       Text("DataPoints: \(currentSession.dataPoints.count)")
     }
     .padding()
-    /*.onReceive(timer) { _ in
-      if timeRemaining > 0 {
-        vibrated = false
-        timeRemaining -= 1
-      }
-      if timeRemaining <= 0 && !vibrated {
-        WKInterfaceDevice.current().play(.failure)
-        vibrated = true
-        timeRemaining = 90
-        periodsDone += 1
-      }
-    }*/
   }
 
   private func assignTimer() {
@@ -93,18 +87,23 @@ struct RunView: View {
       .publish(every: 1, on: .main, in: .common)
       .autoconnect()
       .sink { value in
-        if timeRemaining > 0 {
-          // Regular Interval - Count Down
-          vibrated = false
-          timeRemaining -= 1
-          currentSession.dataPoints.append(Date())
-        }
-        if timeRemaining <= 0 && !vibrated {
-          // Timer Reached Zero - Reset
-          WKInterfaceDevice.current().play(.notification)
-          vibrated = true
-          timeRemaining = 90
-          currentPeriodIndex += 1
+        if hasStarted {
+          if timeRemaining > 0 {
+            // Regular Interval - Count Down
+            vibrated = false
+            timeRemaining -= 1
+            currentSession.dataPoints.append(Date())
+          }
+          if timeRemaining <= 0 && !vibrated {
+            // Timer Reached Zero - Reset
+            WKInterfaceDevice.current().play(.notification)
+            vibrated = true
+
+            currentPeriodIndex += 1
+            if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+              timeRemaining = Int(period.duration)
+            }
+          }
         }
       }
   }

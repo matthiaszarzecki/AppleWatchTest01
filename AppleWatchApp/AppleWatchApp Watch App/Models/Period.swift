@@ -5,7 +5,7 @@
 //  Created by Matthias Zarzecki on 16.07.24.
 //
 
-import Foundation
+import SwiftUI
 
 struct Period {
   let type: PeriodType
@@ -21,6 +21,17 @@ struct Period {
       "Run"
     case .windDownWalk:
       "Wind Down"
+    }
+  }
+
+  var color: Color {
+    switch type {
+    case .warmUpWalk, .windDownWalk:
+      .yellow
+    case .intermediateWalk:
+      .red
+    case .run:
+      .green
     }
   }
 }
