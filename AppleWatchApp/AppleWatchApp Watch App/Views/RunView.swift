@@ -13,7 +13,7 @@ struct RunView: View {
   @State private var currentPeriodIndex = 0
   @State private var vibrated = false
 
-  @State private var timer: AnyCancellable?
+  @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
   @State private var currentSession = CurrentSession()
   @State private var hasStarted = false
 
@@ -39,7 +39,7 @@ struct RunView: View {
         Button(
           action: {
             //timer = Timer.publish(every: 1, on: .main, in: .common)
-            timer?.cancel()
+            //timer?.cancel()
 
             hasStarted = false
             currentPeriodIndex = 0
@@ -82,10 +82,32 @@ struct RunView: View {
       Text("DataPoints: \(currentSession.dataPoints.count)")
     }
     .padding()
+    .onReceive(timer) { value in
+      print(value)
+
+      if hasStarted {
+        if timeRemaining > 0 {
+          // Regular Interval - Count Down
+          vibrated = false
+          timeRemaining -= 1
+          currentSession.dataPoints.append(Date())
+        }
+        if timeRemaining <= 0 && !vibrated {
+          // Timer Reached Zero - Reset
+          WKInterfaceDevice.current().play(.notification)
+          vibrated = true
+
+          currentPeriodIndex += 1
+          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+            timeRemaining = Int(period.duration)
+          }
+        }
+      }
+    }
   }
 
   private func assignTimer() {
-    timer = Timer
+    /*timer = Timer
       .publish(every: 1, on: .main, in: .common)
       .autoconnect()
       .sink { value in
@@ -109,7 +131,7 @@ struct RunView: View {
             }
           }
         }
-      }
+      }*/
   }
 }
 
