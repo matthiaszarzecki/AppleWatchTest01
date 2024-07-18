@@ -21,6 +21,7 @@
 		6E7F97752C47B842009496B1 /* CurrentSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7F97742C47B842009496B1 /* CurrentSession.swift */; };
 		6E7F97772C47BB98009496B1 /* Collection-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7F97762C47BB98009496B1 /* Collection-Extension.swift */; };
 		6E7F977A2C47BCBE009496B1 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7F97792C47BCBE009496B1 /* Device.swift */; };
+		6EE15E8E2C4955F000B3E65E /* RunState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE15E8D2C4955F000B3E65E /* RunState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		6E7F97742C47B842009496B1 /* CurrentSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSession.swift; sourceTree = "<group>"; };
 		6E7F97762C47BB98009496B1 /* Collection-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection-Extension.swift"; sourceTree = "<group>"; };
 		6E7F97792C47BCBE009496B1 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		6EE15E8D2C4955F000B3E65E /* RunState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 				6E7F97792C47BCBE009496B1 /* Device.swift */,
 				6E42A45F2C468ADE00A09911 /* Period.swift */,
 				6E7F97722C47B81F009496B1 /* PeriodType.swift */,
+				6EE15E8D2C4955F000B3E65E /* RunState.swift */,
 				6E42A45D2C468ACC00A09911 /* TrainingDay.swift */,
 			);
 			path = Models;
@@ -371,6 +374,7 @@
 			files = (
 				6E2C01F82C31DF8500B09C5F /* RunView.swift in Sources */,
 				6E2C01F62C31DF8500B09C5F /* AppleWatchAppApp.swift in Sources */,
+				6EE15E8E2C4955F000B3E65E /* RunState.swift in Sources */,
 				6E7F97772C47BB98009496B1 /* Collection-Extension.swift in Sources */,
 				6E42A4602C468ADE00A09911 /* Period.swift in Sources */,
 				6E42A45E2C468ACC00A09911 /* TrainingDay.swift in Sources */,
