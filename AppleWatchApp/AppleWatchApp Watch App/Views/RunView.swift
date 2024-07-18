@@ -25,6 +25,15 @@ struct RunView: View {
           .font(.system(size: 42))
           .foregroundStyle(.green)
 
+
+        if runState == .hasNotStarted {
+
+        } else if runState == .inProgress {
+
+        } else if runState == .finished {
+          
+        }
+
         VStack {
           Text("Time Left: \(timeRemaining)s")
           Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
