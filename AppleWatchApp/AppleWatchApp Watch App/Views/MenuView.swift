@@ -20,7 +20,7 @@ struct MenuView: View {
             showTrainingDay = true
           },
           label: {
-            Text("Debug")
+            Text(TrainingDay.debugDay.name)
           }
         )
 
@@ -30,7 +30,7 @@ struct MenuView: View {
             showTrainingDay = true
           },
           label: {
-            Text("Day 1")
+            Text(TrainingDay.day0.name)
           }
         )
 

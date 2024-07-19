@@ -18,7 +18,7 @@ struct TrainingDay {
 
 extension TrainingDay {
   static let day0 = TrainingDay(
-    name: "Day 1",
+    name: "Day 1 - 90s x8",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
       Period(type: .run, duration: 90),

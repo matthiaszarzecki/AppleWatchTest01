@@ -42,8 +42,56 @@ struct RunView: View {
         }
 
         HStack {
-          resetButton
-          startSkipButton
+          //resetButton
+          //startSkipButton
+
+          Button(
+            action: {
+              currentPeriodIndex -= 1
+              if currentPeriodIndex < 0 {
+                currentPeriodIndex = 0
+                runState = .hasNotStarted
+              }
+
+              if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+                timeRemaining = Int(period.duration)
+              }
+
+              hasVibrated = false
+              WKInterfaceDevice.current().play(.notification)
+            },
+            label: {
+              Image(systemName: "arrow.left")
+            }
+          )
+
+          Button(
+            action: {
+              WKInterfaceDevice.current().play(.notification)
+            },
+            label: {
+              Image(systemName: "pause.fill")
+            }
+          )
+
+          Button(
+            action: {
+              if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
+                runState = .finished
+              } else {
+                currentPeriodIndex += 1
+                if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+                  timeRemaining = Int(period.duration)
+                }
+              }
+
+              hasVibrated = false
+              WKInterfaceDevice.current().play(.notification)
+            },
+            label: {
+              Image(systemName: "arrow.right")
+            }
+          )
         }
       } else if runState == .finished {
         Text("You made it!")
@@ -99,6 +147,14 @@ struct RunView: View {
         Text(currentPeriodIndex == 0 && runState == .hasNotStarted ? "Start" : "Skip")
       }
     )
+  }
+
+  private func skipBackward() {
+
+  }
+
+  private func skipForward() {
+
   }
 
   private func update(_ date: Date) {
