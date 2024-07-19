@@ -14,7 +14,7 @@ struct AppleWatchApp_Watch_AppApp: App {
     @State var delegate = WKDelegate()
 
     WindowGroup {
-      RunView()
+      MenuView()
         .onAppear {
           session = WKExtendedRuntimeSession()
           session.delegate = delegate

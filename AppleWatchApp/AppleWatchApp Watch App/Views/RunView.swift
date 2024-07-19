@@ -10,11 +10,11 @@ import SwiftUI
 
 struct RunView: View {
   @State var runState: RunState = .hasNotStarted
+  @State var currentSession: CurrentSession
 
   @State private var timeRemaining = 90
   @State private var currentPeriodIndex = 0
   @State private var hasVibrated = false
-  @State private var currentSession = CurrentSession()
   @State private var currentDate: Date = .now
 
   private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -45,6 +45,7 @@ struct RunView: View {
           startSkipButton
         }
       } else if runState == .finished {
+        Text("You made it!")
         resetButton
         Text("DataPoints: \(currentSession.dataPoints.count)")
       }
@@ -53,6 +54,7 @@ struct RunView: View {
     .onReceive(timer) { value in
       update(value)
     }
+    .navigationBarBackButtonHidden(runState == .inProgress)
   }
 
   private var resetButton: some View {
@@ -74,6 +76,8 @@ struct RunView: View {
     )
   }
 
+  // TODO: Separate Start/Skip Button
+  // TODO: Skipping from last period does not end run
   private var startSkipButton: some View {
     Button(
       action: {
@@ -112,7 +116,7 @@ struct RunView: View {
         hasVibrated = true
 
         // TODO: See if this actually works
-        if currentPeriodIndex > currentSession.trainingDay.periods.count {
+        if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
           // Run is Finished
           runState = .finished
         } else {
@@ -127,13 +131,22 @@ struct RunView: View {
 }
 
 #Preview("hasNotStarted") {
-  RunView(runState: .hasNotStarted)
+  RunView(
+    runState: .hasNotStarted,
+    currentSession: CurrentSession(trainingDay: .day0)
+  )
 }
 
 #Preview("inProgress") {
-  RunView(runState: .inProgress)
+  RunView(
+    runState: .inProgress,
+    currentSession: CurrentSession(trainingDay: .day0)
+  )
 }
 
 #Preview("finished") {
-  RunView(runState: .finished)
+  RunView(
+    runState: .finished,
+    currentSession: CurrentSession(trainingDay: .day0)
+  )
 }

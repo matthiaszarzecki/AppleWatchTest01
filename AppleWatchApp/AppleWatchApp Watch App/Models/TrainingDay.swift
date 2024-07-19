@@ -38,4 +38,14 @@ extension TrainingDay {
       Period(type: .windDownWalk, duration: 90)
     ]
   )
+
+  static let debugDay = TrainingDay(
+    periods: [
+      Period(type: .warmUpWalk, duration: 5),
+      Period(type: .run, duration: 5),
+      Period(type: .intermediateWalk, duration: 5),
+      Period(type: .run, duration: 5),
+      Period(type: .windDownWalk, duration: 5)
+    ]
+  )
 }
