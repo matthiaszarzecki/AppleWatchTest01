@@ -22,6 +22,7 @@ struct RunView: View {
   var body: some View {
     VStack {
       if runState == .hasNotStarted {
+        Text(currentSession.trainingDay.name)
         startSkipButton
       } else if runState == .inProgress {
         HStack {

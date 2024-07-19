@@ -8,6 +8,7 @@
 import Foundation
 
 struct TrainingDay {
+  let name: String
   let periods: [Period]
 
   var numberOfRunPeriods: Int {
@@ -17,6 +18,7 @@ struct TrainingDay {
 
 extension TrainingDay {
   static let day0 = TrainingDay(
+    name: "Day 1",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
       Period(type: .run, duration: 90),
@@ -40,6 +42,7 @@ extension TrainingDay {
   )
 
   static let debugDay = TrainingDay(
+    name: "Debug Day",
     periods: [
       Period(type: .warmUpWalk, duration: 5),
       Period(type: .run, duration: 5),

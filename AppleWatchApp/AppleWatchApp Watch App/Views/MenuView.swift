@@ -34,7 +34,15 @@ struct MenuView: View {
           }
         )
 
-        Text("Day 2")
+        Button(
+          action: {
+            currentTrainingDay = .day0
+            showTrainingDay = true
+          },
+          label: {
+            Text("Day 2")
+          }
+        )
       }
       .listStyle(.carousel)
       .navigationDestination(isPresented: $showTrainingDay) {
