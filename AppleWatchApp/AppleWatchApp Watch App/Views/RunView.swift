@@ -17,13 +17,15 @@ struct RunView: View {
   @State private var hasVibrated = false
   @State private var currentDate: Date = .now
 
-  private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+  private let timer = Timer
+    .publish(every: 1, on: .main, in: .common)
+    .autoconnect()
 
   var body: some View {
     VStack {
       if runState == .hasNotStarted {
         Text(currentSession.trainingDay.name)
-        startSkipButton
+        startButton
       } else if runState == .inProgress {
         HStack {
           Image(systemName: "timer")
@@ -33,33 +35,18 @@ struct RunView: View {
           VStack {
             Text("Time Left: \(timeRemaining)s")
             Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
-
-            if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-              Text(period.description)
-                .foregroundStyle(period.color)
-            }
           }
         }
 
+        if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+          Text(period.description)
+            .foregroundStyle(period.color)
+            .font(.system(size: 20))
+        }
+
         HStack {
-          //resetButton
-          //startSkipButton
-
           Button(
-            action: {
-              currentPeriodIndex -= 1
-              if currentPeriodIndex < 0 {
-                currentPeriodIndex = 0
-                runState = .hasNotStarted
-              }
-
-              if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-                timeRemaining = Int(period.duration)
-              }
-
-              hasVibrated = false
-              WKInterfaceDevice.current().play(.notification)
-            },
+            action: skipBackward,
             label: {
               Image(systemName: "arrow.left")
             }
@@ -67,7 +54,7 @@ struct RunView: View {
 
           Button(
             action: {
-              WKInterfaceDevice.current().play(.notification)
+              vibrate()
             },
             label: {
               Image(systemName: "pause.fill")
@@ -75,19 +62,7 @@ struct RunView: View {
           )
 
           Button(
-            action: {
-              if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
-                runState = .finished
-              } else {
-                currentPeriodIndex += 1
-                if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-                  timeRemaining = Int(period.duration)
-                }
-              }
-
-              hasVibrated = false
-              WKInterfaceDevice.current().play(.notification)
-            },
+            action: skipForward,
             label: {
               Image(systemName: "arrow.right")
             }
@@ -106,6 +81,26 @@ struct RunView: View {
     .navigationBarBackButtonHidden(runState == .inProgress)
   }
 
+  private var startButton: some View {
+    Button(
+      action: {
+        if currentPeriodIndex == 0 && runState == .hasNotStarted {
+          runState = .inProgress
+
+          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+            timeRemaining = Int(period.duration)
+          }
+
+          hasVibrated = false
+          vibrate()
+        }
+      },
+      label: {
+        Text("Start")
+      }
+    )
+  }
+
   private var resetButton: some View {
     Button(
       action: {
@@ -117,7 +112,7 @@ struct RunView: View {
 
         hasVibrated = false
         currentSession.dataPoints = []
-        WKInterfaceDevice.current().play(.failure)
+        vibrateReset()
       },
       label: {
         Text("Reset")
@@ -125,36 +120,33 @@ struct RunView: View {
     )
   }
 
-  // TODO: Separate Start/Skip Button
-  // TODO: Skipping from last period does not end run
-  private var startSkipButton: some View {
-    Button(
-      action: {
-        if currentPeriodIndex == 0 && runState == .hasNotStarted {
-          runState = .inProgress
-        } else {
-          currentPeriodIndex += 1
-        }
-
-        if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-          timeRemaining = Int(period.duration)
-        }
-
-        hasVibrated = false
-        WKInterfaceDevice.current().play(.notification)
-      },
-      label: {
-        Text(currentPeriodIndex == 0 && runState == .hasNotStarted ? "Start" : "Skip")
-      }
-    )
-  }
-
   private func skipBackward() {
+    currentPeriodIndex -= 1
+    if currentPeriodIndex < 0 {
+      currentPeriodIndex = 0
+      runState = .hasNotStarted
+    }
 
+    if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+      timeRemaining = Int(period.duration)
+    }
+
+    hasVibrated = false
+    vibrate()
   }
 
   private func skipForward() {
+    if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
+      runState = .finished
+    } else {
+      currentPeriodIndex += 1
+      if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+        timeRemaining = Int(period.duration)
+      }
+    }
 
+    hasVibrated = false
+    vibrate()
   }
 
   private func update(_ date: Date) {
@@ -169,7 +161,7 @@ struct RunView: View {
         currentSession.dataPoints.append(Date())
       } else if timeRemaining <= 0 && !hasVibrated {
         // Timer Reached Zero - Set to next period
-        WKInterfaceDevice.current().play(.notification)
+        vibrate()
         hasVibrated = true
 
         // TODO: See if this actually works
@@ -185,23 +177,31 @@ struct RunView: View {
       }
     }
   }
+
+  private func vibrate() {
+    WKInterfaceDevice.current().play(.notification)
+  }
+
+  private func vibrateReset() {
+    WKInterfaceDevice.current().play(.failure)
+  }
 }
 
-#Preview("hasNotStarted") {
+#Preview("Has Not Started") {
   RunView(
     runState: .hasNotStarted,
     currentSession: CurrentSession(trainingDay: .day0)
   )
 }
 
-#Preview("inProgress") {
+#Preview("In Progress") {
   RunView(
     runState: .inProgress,
     currentSession: CurrentSession(trainingDay: .day0)
   )
 }
 
-#Preview("finished") {
+#Preview("Finished") {
   RunView(
     runState: .finished,
     currentSession: CurrentSession(trainingDay: .day0)

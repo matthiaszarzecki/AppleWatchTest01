@@ -20,7 +20,7 @@ struct Period {
     case .run:
       "Run"
     case .windDownWalk:
-      "Wind Down"
+      "Wind Down Walk"
     }
   }
 

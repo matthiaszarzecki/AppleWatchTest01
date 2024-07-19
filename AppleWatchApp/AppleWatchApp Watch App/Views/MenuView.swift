@@ -14,39 +14,23 @@ struct MenuView: View {
   var body: some View {
     NavigationStack {
       List {
-        Button(
-          action: {
-            currentTrainingDay = .debugDay
-            showTrainingDay = true
-          },
-          label: {
-            Text(TrainingDay.debugDay.name)
-          }
-        )
-
-        Button(
-          action: {
-            currentTrainingDay = .day0
-            showTrainingDay = true
-          },
-          label: {
-            Text(TrainingDay.day0.name)
-          }
-        )
-
-        Button(
-          action: {
-            currentTrainingDay = .day0
-            showTrainingDay = true
-          },
-          label: {
-            Text("Day 2")
-          }
-        )
+        ForEach(0..<TrainingDay.allDays.count, id: \.self) { index in
+          Button(
+            action: {
+              currentTrainingDay = TrainingDay.allDays[index]
+              showTrainingDay = true
+            },
+            label: {
+              Text(TrainingDay.allDays[index].name)
+            }
+          )
+        }
       }
       .listStyle(.carousel)
       .navigationDestination(isPresented: $showTrainingDay) {
-        RunView(currentSession: CurrentSession(trainingDay: currentTrainingDay))
+        RunView(
+          currentSession: CurrentSession(trainingDay: currentTrainingDay)
+        )
       }
     }
   }

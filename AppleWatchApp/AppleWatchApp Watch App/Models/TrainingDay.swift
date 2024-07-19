@@ -51,4 +51,9 @@ extension TrainingDay {
       Period(type: .windDownWalk, duration: 5)
     ]
   )
+
+  static let allDays: [TrainingDay] = [
+    .debugDay,
+    .day0
+  ]
 }
