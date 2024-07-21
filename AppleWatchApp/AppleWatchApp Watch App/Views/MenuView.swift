@@ -12,6 +12,8 @@ struct MenuView: View {
   @State var currentTrainingDay: TrainingDay = .day0
 
   var body: some View {
+    let gradient = Gradient(colors: [.yellow, .blue])
+
     NavigationStack {
       List {
         ForEach(0..<TrainingDay.allDays.count, id: \.self) { index in
@@ -21,9 +23,17 @@ struct MenuView: View {
               showTrainingDay = true
             },
             label: {
-              Text(TrainingDay.allDays[index].name)
+              ZStack {
+                LinearGradient(gradient: gradient, startPoint: .bottomTrailing, endPoint: .topLeading)
+                  .frame(height: 48)
+                Text(TrainingDay.allDays[index].name)
+              }
+              .mask(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
           )
+          // Necessary to disable default colors
+          .background(Color.black.ignoresSafeArea())
+          .listRowBackground(Color.black)
         }
       }
       .listStyle(.carousel)
