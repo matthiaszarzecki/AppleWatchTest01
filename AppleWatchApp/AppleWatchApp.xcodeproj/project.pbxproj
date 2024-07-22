@@ -70,7 +70,7 @@
 		6E2C01F72C31DF8500B09C5F /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
 		6E2C01F92C31DF8600B09C5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E2C01FC2C31DF8600B09C5F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		6E2C02022C31DF8700B09C5F /* AppleWatchApp Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AppleWatchApp Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E2C02022C31DF8700B09C5F /* RunAppUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunAppUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C02062C31DF8700B09C5F /* AppleWatchApp_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchApp_Watch_AppTests.swift; sourceTree = "<group>"; };
 		6E2C020C2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AppleWatchApp Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C02102C31DF8700B09C5F /* AppleWatchApp_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchApp_Watch_AppUITests.swift; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				6E2C01F42C31DF8500B09C5F /* AppleWatchApp Watch App */,
-				6E2C02052C31DF8700B09C5F /* AppleWatchApp Watch AppTests */,
+				6E2C02052C31DF8700B09C5F /* RunAppUnitTests */,
 				6E2C020F2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests */,
 				6E2C01EB2C31DF8500B09C5F /* Products */,
 			);
@@ -126,7 +126,7 @@
 			children = (
 				6E2C01EA2C31DF8500B09C5F /* AppleWatchApp.app */,
 				6E2C01F02C31DF8500B09C5F /* RunApp.app */,
-				6E2C02022C31DF8700B09C5F /* AppleWatchApp Watch AppTests.xctest */,
+				6E2C02022C31DF8700B09C5F /* RunAppUnitTests.xctest */,
 				6E2C020C2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests.xctest */,
 			);
 			name = Products;
@@ -153,12 +153,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		6E2C02052C31DF8700B09C5F /* AppleWatchApp Watch AppTests */ = {
+		6E2C02052C31DF8700B09C5F /* RunAppUnitTests */ = {
 			isa = PBXGroup;
 			children = (
 				6E2C02062C31DF8700B09C5F /* AppleWatchApp_Watch_AppTests.swift */,
 			);
-			path = "AppleWatchApp Watch AppTests";
+			path = RunAppUnitTests;
 			sourceTree = "<group>";
 		};
 		6E2C020F2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests */ = {
@@ -254,9 +254,9 @@
 			productReference = 6E2C01F02C31DF8500B09C5F /* RunApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6E2C02012C31DF8700B09C5F /* AppleWatchApp Watch AppTests */ = {
+		6E2C02012C31DF8700B09C5F /* RunAppUnitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6E2C021D2C31DF8700B09C5F /* Build configuration list for PBXNativeTarget "AppleWatchApp Watch AppTests" */;
+			buildConfigurationList = 6E2C021D2C31DF8700B09C5F /* Build configuration list for PBXNativeTarget "RunAppUnitTests" */;
 			buildPhases = (
 				6E2C01FE2C31DF8700B09C5F /* Sources */,
 				6E2C01FF2C31DF8700B09C5F /* Frameworks */,
@@ -267,9 +267,9 @@
 			dependencies = (
 				6E2C02042C31DF8700B09C5F /* PBXTargetDependency */,
 			);
-			name = "AppleWatchApp Watch AppTests";
+			name = RunAppUnitTests;
 			productName = "AppleWatchApp Watch AppTests";
-			productReference = 6E2C02022C31DF8700B09C5F /* AppleWatchApp Watch AppTests.xctest */;
+			productReference = 6E2C02022C31DF8700B09C5F /* RunAppUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		6E2C020B2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests */ = {
@@ -331,7 +331,7 @@
 			targets = (
 				6E2C01E92C31DF8500B09C5F /* AppleWatchApp */,
 				6E2C01EF2C31DF8500B09C5F /* AppleWatchApp Watch App */,
-				6E2C02012C31DF8700B09C5F /* AppleWatchApp Watch AppTests */,
+				6E2C02012C31DF8700B09C5F /* RunAppUnitTests */,
 				6E2C020B2C31DF8700B09C5F /* AppleWatchApp Watch AppUITests */,
 			);
 		};
@@ -654,7 +654,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppleWatchApp Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppleWatchApp Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RunApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RunApp";
 				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Debug;
@@ -675,7 +675,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AppleWatchApp Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AppleWatchApp Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RunApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RunApp";
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
@@ -752,7 +752,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E2C021D2C31DF8700B09C5F /* Build configuration list for PBXNativeTarget "AppleWatchApp Watch AppTests" */ = {
+		6E2C021D2C31DF8700B09C5F /* Build configuration list for PBXNativeTarget "RunAppUnitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E2C021E2C31DF8700B09C5F /* Debug */,

@@ -1,10 +1,10 @@
 default_platform(:ios)
 
-
-
 platform :ios do
   desc "Description of what the lane does"
   lane :just_build_app do
+    match(type: "development")
+
     gym(
       scheme: "RunApp",
       destination: "generic/platform=watchOS",
@@ -16,5 +16,13 @@ platform :ios do
       #destination: "generic/platform=watchOS",
       #export_method: "development"
     #)
+  end
+
+  lane :run_tests do 
+    #run_tests(scheme: "RunAppUnitTests")
+    run_tests(
+      devices: ["Apple Watch SE (40 mm) (2nd Generation)"],
+      scheme: "RunAppUnitTests"
+    )
   end
 end

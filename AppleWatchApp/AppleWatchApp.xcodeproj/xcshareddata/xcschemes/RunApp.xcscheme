@@ -50,8 +50,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E2C02012C31DF8700B09C5F"
-               BuildableName = "AppleWatchApp Watch AppTests.xctest"
-               BlueprintName = "AppleWatchApp Watch AppTests"
+               BuildableName = "RunAppUnitTests.xctest"
+               BlueprintName = "RunAppUnitTests"
                ReferencedContainer = "container:AppleWatchApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
