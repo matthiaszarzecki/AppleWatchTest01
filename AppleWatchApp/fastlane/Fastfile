@@ -8,7 +8,8 @@ platform :ios do
     gym(
       scheme: "RunApp",
       destination: "generic/platform=watchOS",
-      export_method: "development"
+      export_method: "development",
+      skip_archive: true
     )
     #gym(
       #scheme: "AppleWatchApp Watch App",
