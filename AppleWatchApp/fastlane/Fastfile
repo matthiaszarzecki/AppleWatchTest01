@@ -5,7 +5,6 @@ default_platform(:ios)
 platform :ios do
   desc "Description of what the lane does"
   lane :just_build_app do
-    xcodes(version: "15.4")
     gym(
       scheme: "AppleWatchApp\ Watch\ App",
       destination: "generic/platform=watchOS",
