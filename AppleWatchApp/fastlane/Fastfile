@@ -6,9 +6,14 @@ platform :ios do
   desc "Description of what the lane does"
   lane :just_build_app do
     gym(
-      scheme: "AppleWatchApp\ Watch\ App",
+      scheme: "RunApp",
       destination: "generic/platform=watchOS",
       export_method: "development"
     )
+    #gym(
+      #scheme: "AppleWatchApp Watch App",
+      #destination: "generic/platform=watchOS",
+      #export_method: "development"
+    #)
   end
 end
