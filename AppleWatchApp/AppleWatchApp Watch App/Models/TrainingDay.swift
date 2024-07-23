@@ -17,7 +17,18 @@ struct TrainingDay {
 }
 
 extension TrainingDay {
-  static let day0 = TrainingDay(
+  static let debugDay = TrainingDay(
+    name: "Debug Day",
+    periods: [
+      Period(type: .warmUpWalk, duration: 5),
+      Period(type: .run, duration: 5),
+      Period(type: .intermediateWalk, duration: 5),
+      Period(type: .run, duration: 5),
+      Period(type: .windDownWalk, duration: 5)
+    ]
+  )
+
+  static let day1 = TrainingDay(
     name: "Day 1 - 90s x8",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
@@ -41,19 +52,33 @@ extension TrainingDay {
     ]
   )
 
-  static let debugDay = TrainingDay(
-    name: "Debug Day",
+  static let day2 = TrainingDay(
+    name: "Day 1 - 90s x8",
     periods: [
-      Period(type: .warmUpWalk, duration: 5),
-      Period(type: .run, duration: 5),
-      Period(type: .intermediateWalk, duration: 5),
-      Period(type: .run, duration: 5),
-      Period(type: .windDownWalk, duration: 5)
+      Period(type: .warmUpWalk, duration: 90),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 60),
+      Period(type: .windDownWalk, duration: 90)
     ]
   )
 
   static let allDays: [TrainingDay] = [
     .debugDay,
-    .day0
+    .day1,
+    .day2
   ]
 }

@@ -54,6 +54,7 @@ struct RunView: View {
 
           Button(
             action: {
+              runState = .paused
               vibrate()
             },
             label: {
@@ -68,6 +69,17 @@ struct RunView: View {
             }
           )
         }
+      } else if runState == .paused {
+        Text("Run Paused")
+        Button(
+          action: {
+            runState = .inProgress
+            vibrate()
+          },
+          label: {
+            Text("Continue")
+          }
+        )
       } else if runState == .finished {
         Text("You made it!")
         resetButton
@@ -78,7 +90,7 @@ struct RunView: View {
     .onReceive(timer) { value in
       update(value)
     }
-    .navigationBarBackButtonHidden(runState == .inProgress)
+    .navigationBarBackButtonHidden(runState == .inProgress || runState == .paused)
   }
 
   private var startButton: some View {
@@ -190,20 +202,27 @@ struct RunView: View {
 #Preview("Has Not Started") {
   RunView(
     runState: .hasNotStarted,
-    currentSession: CurrentSession(trainingDay: .day0)
+    currentSession: CurrentSession(trainingDay: .day1)
   )
 }
 
 #Preview("In Progress") {
   RunView(
     runState: .inProgress,
-    currentSession: CurrentSession(trainingDay: .day0)
+    currentSession: CurrentSession(trainingDay: .day1)
   )
 }
 
 #Preview("Finished") {
   RunView(
     runState: .finished,
-    currentSession: CurrentSession(trainingDay: .day0)
+    currentSession: CurrentSession(trainingDay: .day1)
+  )
+}
+
+#Preview("Paused") {
+  RunView(
+    runState: .paused,
+    currentSession: CurrentSession(trainingDay: .day1)
   )
 }

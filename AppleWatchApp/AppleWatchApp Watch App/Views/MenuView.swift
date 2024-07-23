@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuView: View {
   @State var showTrainingDay = false
-  @State var currentTrainingDay: TrainingDay = .day0
+  @State var currentTrainingDay: TrainingDay = .day1
 
   var body: some View {
     let gradient = Gradient(colors: [.yellow, .blue])

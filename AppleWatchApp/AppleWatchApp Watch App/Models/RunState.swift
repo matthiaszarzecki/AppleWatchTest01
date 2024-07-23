@@ -9,4 +9,5 @@ enum RunState {
   case hasNotStarted
   case inProgress
   case finished
+  case paused
 }
