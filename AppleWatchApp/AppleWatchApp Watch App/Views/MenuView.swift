@@ -12,12 +12,37 @@ struct MenuView: View {
   @State var currentTrainingDay: TrainingDay = .day1
   @State var steps: Double = 0
 
+  @StateObject var locationManager = LocationManager()
+
+  var userLatitude: String {
+    "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
+  }
+
+  var userLongitude: String {
+    "\(locationManager.lastLocation?.coordinate.longitude ?? 0)"
+  }
+
   var body: some View {
     let gradient = Gradient(colors: [.yellow, .blue])
 
     NavigationStack {
       List {
         Text("Steps: \(steps)")
+        Text("location status: \(locationManager.statusString)")
+        HStack {
+          Text("latitude: \(userLatitude)")
+          Text("longitude: \(userLongitude)")
+        }
+
+        Button(
+          action: {
+            locationManager.request()
+          },
+          label: {
+            Text("Request Location Access")
+          }
+        )
+
         ForEach(0..<TrainingDay.allDays.count, id: \.self) { index in
           Button(
             action: {
