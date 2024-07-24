@@ -11,4 +11,5 @@ struct CurrentSession {
   let trainingDay: TrainingDay
   
   var dataPoints: [Date] = []
+  var seconds = 0
 }

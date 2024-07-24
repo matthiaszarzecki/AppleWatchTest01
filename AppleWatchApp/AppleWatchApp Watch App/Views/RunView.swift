@@ -96,6 +96,7 @@ struct RunView: View {
       } else if runState == .finished {
         Text("You made it!")
         resetButton
+        Text("Seconds: \(currentSession.seconds)")
         Text("DataPoints: \(currentSession.dataPoints.count)")
       }
     }
@@ -184,6 +185,7 @@ struct RunView: View {
         hasVibrated = false
         timeRemaining -= 1
         currentSession.dataPoints.append(Date())
+        currentSession.seconds += 1
       } else if timeRemaining <= 0 && !hasVibrated {
         // Timer Reached Zero - Set to next period
         vibrate()
