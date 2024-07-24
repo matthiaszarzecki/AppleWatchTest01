@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6E1790162C5166CE00D0A955 /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1790152C5166CE00D0A955 /* HealthStore.swift */; };
+		6E1790182C51885900D0A955 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1790172C51885900D0A955 /* LocationManager.swift */; };
 		6E2C01F12C31DF8500B09C5F /* RunApp.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 6E2C01F02C31DF8500B09C5F /* RunApp.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6E2C01F62C31DF8500B09C5F /* AppleWatchAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C01F52C31DF8500B09C5F /* AppleWatchAppApp.swift */; };
 		6E2C01F82C31DF8500B09C5F /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2C01F72C31DF8500B09C5F /* RunView.swift */; };
@@ -67,6 +68,7 @@
 /* Begin PBXFileReference section */
 		6E1790142C50FECF00D0A955 /* AppleWatchApp Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AppleWatchApp Watch App.entitlements"; sourceTree = "<group>"; };
 		6E1790152C5166CE00D0A955 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
+		6E1790172C51885900D0A955 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6E2C01EA2C31DF8500B09C5F /* AppleWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C01F02C31DF8500B09C5F /* RunApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C01F52C31DF8500B09C5F /* AppleWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchAppApp.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				6E7F97742C47B842009496B1 /* CurrentSession.swift */,
 				6E7F97792C47BCBE009496B1 /* Device.swift */,
 				6E1790152C5166CE00D0A955 /* HealthStore.swift */,
+				6E1790172C51885900D0A955 /* LocationManager.swift */,
 				6E42A45F2C468ADE00A09911 /* Period.swift */,
 				6E7F97722C47B81F009496B1 /* PeriodType.swift */,
 				6EE15E8D2C4955F000B3E65E /* RunState.swift */,
@@ -388,6 +391,7 @@
 				6EE15E902C4A7E8100B3E65E /* MenuView.swift in Sources */,
 				6E42A45E2C468ACC00A09911 /* TrainingDay.swift in Sources */,
 				6E7F97752C47B842009496B1 /* CurrentSession.swift in Sources */,
+				6E1790182C51885900D0A955 /* LocationManager.swift in Sources */,
 				6E7F97732C47B81F009496B1 /* PeriodType.swift in Sources */,
 				6E7F977A2C47BCBE009496B1 /* Device.swift in Sources */,
 				6E1790162C5166CE00D0A955 /* HealthStore.swift in Sources */,
