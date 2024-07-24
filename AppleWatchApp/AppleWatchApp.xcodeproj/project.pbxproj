@@ -64,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E1790142C50FECF00D0A955 /* AppleWatchApp Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AppleWatchApp Watch App.entitlements"; sourceTree = "<group>"; };
 		6E2C01EA2C31DF8500B09C5F /* AppleWatchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppleWatchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C01F02C31DF8500B09C5F /* RunApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2C01F52C31DF8500B09C5F /* AppleWatchAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWatchAppApp.swift; sourceTree = "<group>"; };
@@ -135,6 +136,7 @@
 		6E2C01F42C31DF8500B09C5F /* AppleWatchApp Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				6E1790142C50FECF00D0A955 /* AppleWatchApp Watch App.entitlements */,
 				6E3DE1012C4932B80089BA6F /* AppleWatchApp-Watch-App-Info.plist */,
 				6E42A4642C468BCE00A09911 /* AppDelegate */,
 				6E7F97782C47BB9D009496B1 /* Extensions */,
@@ -547,6 +549,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AppleWatchApp Watch App/AppleWatchApp Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AppleWatchApp Watch App/SupportingFiles/Preview Content\"";
@@ -577,6 +580,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "AppleWatchApp Watch App/AppleWatchApp Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AppleWatchApp Watch App/SupportingFiles/Preview Content\"";

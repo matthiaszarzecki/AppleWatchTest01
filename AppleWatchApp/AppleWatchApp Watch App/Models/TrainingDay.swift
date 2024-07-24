@@ -53,7 +53,7 @@ extension TrainingDay {
   )
 
   static let day2 = TrainingDay(
-    name: "Day 1 - 90s x8",
+    name: "Day 2 - 90s x8",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
       Period(type: .run, duration: 90),
@@ -76,9 +76,26 @@ extension TrainingDay {
     ]
   )
 
+  static let day3 = TrainingDay(
+    name: "Day 7 - 90s, 3min x2",
+    periods: [
+      Period(type: .warmUpWalk, duration: 90),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 180),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 180),
+      Period(type: .windDownWalk, duration: 90)
+    ]
+  )
+
   static let allDays: [TrainingDay] = [
     .debugDay,
     .day1,
-    .day2
+    .day2,
+    .day3
   ]
 }

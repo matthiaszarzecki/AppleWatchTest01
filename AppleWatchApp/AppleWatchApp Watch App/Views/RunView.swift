@@ -6,6 +6,7 @@
 //
 
 import Combine
+import HealthKit
 import SwiftUI
 
 struct RunView: View {
@@ -17,6 +18,8 @@ struct RunView: View {
   @State private var hasVibrated = false
   @State private var currentDate: Date = .now
 
+  @State private var heartRate: Double = 0
+
   private let timer = Timer
     .publish(every: 1, on: .main, in: .common)
     .autoconnect()
@@ -26,6 +29,16 @@ struct RunView: View {
       if runState == .hasNotStarted {
         Text(currentSession.trainingDay.name)
         startButton
+
+        Button(
+          action: {
+            getHeartRate()
+          },
+          label: {
+            Text("Get Heart Rate")
+          }
+        )
+        Text("Heart Rate: \(heartRate)")
       } else if runState == .inProgress {
         HStack {
           Image(systemName: "timer")
@@ -190,6 +203,28 @@ struct RunView: View {
     }
   }
 
+  private func getHeartRate() {
+    let healthStore = HKHealthStore()
+    let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+    let date = Date()
+    let predicate = HKQuery.predicateForSamples(
+      withStart: date.addingTimeInterval(-60),
+      end: date,
+      options: .strictEndDate
+    )
+    let query = HKStatisticsQuery(
+      quantityType: heartRateType,
+      quantitySamplePredicate: predicate,
+      options: .discreteAverage
+    ) { _, result, _ in
+      guard let result = result, let quantity = result.averageQuantity() else {
+        return
+      }
+      heartRate = quantity.doubleValue(for: HKUnit(from: "count/min"))
+    }
+    healthStore.execute(query)
+  }
+
   private func vibrate() {
     WKInterfaceDevice.current().play(.notification)
   }
@@ -213,16 +248,16 @@ struct RunView: View {
   )
 }
 
-#Preview("Finished") {
+#Preview("Paused") {
   RunView(
-    runState: .finished,
+    runState: .paused,
     currentSession: CurrentSession(trainingDay: .day1)
   )
 }
 
-#Preview("Paused") {
+#Preview("Finished") {
   RunView(
-    runState: .paused,
+    runState: .finished,
     currentSession: CurrentSession(trainingDay: .day1)
   )
 }
