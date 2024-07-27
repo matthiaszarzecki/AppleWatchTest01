@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct TrainingDay {
+struct TrainingDay: Identifiable {
   let name: String
+  let id: String
   let periods: [Period]
 
   var numberOfRunPeriods: Int {
@@ -19,6 +20,7 @@ struct TrainingDay {
 extension TrainingDay {
   static let debugDay = TrainingDay(
     name: "Debug Day",
+    id: "debug_day",
     periods: [
       Period(type: .warmUpWalk, duration: 5),
       Period(type: .run, duration: 5),
@@ -28,8 +30,9 @@ extension TrainingDay {
     ]
   )
 
-  static let day1 = TrainingDay(
+  static let day01 = TrainingDay(
     name: "Day 1 - 90s x8",
+    id: "day_01",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
       Period(type: .run, duration: 90),
@@ -52,8 +55,9 @@ extension TrainingDay {
     ]
   )
 
-  static let day2 = TrainingDay(
+  static let day02 = TrainingDay(
     name: "Day 2 - 90s x8",
+    id: "day_02",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
       Period(type: .run, duration: 90),
@@ -76,8 +80,9 @@ extension TrainingDay {
     ]
   )
 
-  static let day3 = TrainingDay(
+  static let day07 = TrainingDay(
     name: "Day 7 - 90s, 3min x2",
+    id: "day_07",
     periods: [
       Period(type: .warmUpWalk, duration: 90),
       Period(type: .run, duration: 90),
@@ -94,8 +99,8 @@ extension TrainingDay {
 
   static let allDays: [TrainingDay] = [
     .debugDay,
-    .day1,
-    .day2,
-    .day3
+    .day01,
+    .day02,
+    .day07
   ]
 }

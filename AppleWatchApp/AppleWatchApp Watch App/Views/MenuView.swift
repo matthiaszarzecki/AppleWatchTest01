@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuView: View {
   @State var showTrainingDay = false
-  @State var currentTrainingDay: TrainingDay = .day1
+  @State var currentTrainingDay: TrainingDay = .day01
   @State var steps: Double = 0
 
   @StateObject var locationManager = LocationManager()
@@ -23,8 +23,6 @@ struct MenuView: View {
   }
 
   var body: some View {
-    let gradient = Gradient(colors: [.yellow, .blue])
-
     NavigationStack {
       List {
         Text("Steps: \(steps)")
@@ -51,7 +49,7 @@ struct MenuView: View {
             },
             label: {
               ZStack {
-                LinearGradient(gradient: gradient, startPoint: .bottomTrailing, endPoint: .topLeading)
+                LinearGradient.runAppGradient
                   .frame(height: 48)
                 Text(TrainingDay.allDays[index].name)
               }

@@ -20,91 +20,102 @@ struct RunView: View {
 
   @State private var heartRate: Double = 0
 
- 
-
-  
-
   private let timer = Timer
     .publish(every: 1, on: .main, in: .common)
     .autoconnect()
 
   var body: some View {
-    VStack {
-      if runState == .hasNotStarted {
-        Text(currentSession.trainingDay.name)
-        startButton
+    GeometryReader { geometry in
+      let width = geometry.size.width
+      let heightUpperPart = geometry.size.height * 0.6
+      let heightLowerPart = geometry.size.height * 0.4
 
-        Button(
-          action: {
-            getHeartRate()
-          },
-          label: {
-            Text("Get Heart Rate")
-          }
-        )
-        Text("Heart Rate: \(heartRate)")
-      } else if runState == .inProgress {
-        HStack {
-          Image(systemName: "timer")
-            .font(.system(size: 42))
-            .foregroundStyle(.green)
-
-          VStack {
-            Text("Time Left: \(timeRemaining)s")
-            Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
-          }
-        }
-
-        if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-          Text(period.description)
-            .foregroundStyle(period.color)
-            .font(.system(size: 20))
-        }
-
-        HStack {
-          Button(
-            action: skipBackward,
-            label: {
-              Image(systemName: "arrow.left")
-            }
-          )
+      VStack {
+        if runState == .hasNotStarted {
+          Text(currentSession.trainingDay.name)
+          startButton
 
           Button(
             action: {
-              runState = .paused
+              getHeartRate()
+            },
+            label: {
+              Text("Get Heart Rate")
+            }
+          )
+          Text("Heart Rate: \(heartRate)")
+        } else if runState == .inProgress {
+          HStack {
+            Image(systemName: "timer")
+              .font(.system(size: 42))
+              .foregroundStyle(.green)
+
+            VStack {
+              Text("Time Left: \(timeRemaining)s")
+              Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
+            }
+          }
+
+          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+            Text(period.description)
+              .foregroundStyle(period.color)
+              .font(.system(size: 20))
+          }
+
+          HStack {
+            Button(
+              action: skipBackward,
+              label: {
+                Image(systemName: "arrow.left")
+              }
+            )
+
+            Button(
+              action: {
+                runState = .paused
+                vibrate()
+              },
+              label: {
+                Image(systemName: "pause.fill")
+              }
+            )
+
+            Button(
+              action: skipForward,
+              label: {
+                Image(systemName: "arrow.right")
+              }
+            )
+          }
+        } else if runState == .paused {
+          Text("Run Paused")
+          Button(
+            action: {
+              runState = .inProgress
               vibrate()
             },
             label: {
-              Image(systemName: "pause.fill")
+              Text("Continue")
             }
           )
+        } else if runState == .finished {
+          VStack {
+            VStack {
+              Text("You made it!")
+              Text("Seconds: \(currentSession.seconds)")
+              Text("DataPoints: \(currentSession.dataPoints.count)")
+            }
+            .frame(width: width, height: heightUpperPart)
 
-          Button(
-            action: skipForward,
-            label: {
-              Image(systemName: "arrow.right")
+            VStack {
+              resetButton
             }
-          )
-        }
-      } else if runState == .paused {
-        Text("Run Paused")
-        Button(
-          action: {
-            runState = .inProgress
-            vibrate()
-          },
-          label: {
-            Text("Continue")
+            .frame(width: width, height: heightLowerPart)
           }
-        )
-      } else if runState == .finished {
-        Text("You made it!")
-        resetButton
-        Text("Seconds: \(currentSession.seconds)")
-        Text("DataPoints: \(currentSession.dataPoints.count)")
+          .background(.runAppGradient)
+        }
       }
     }
-    .padding()
     .onReceive(timer) { value in
       update(value)
     }
@@ -243,27 +254,27 @@ struct RunView: View {
 #Preview("Has Not Started") {
   RunView(
     runState: .hasNotStarted,
-    currentSession: CurrentSession(trainingDay: .day1)
+    currentSession: CurrentSession(trainingDay: .day01)
   )
 }
 
 #Preview("In Progress") {
   RunView(
     runState: .inProgress,
-    currentSession: CurrentSession(trainingDay: .day1)
+    currentSession: CurrentSession(trainingDay: .day01)
   )
 }
 
 #Preview("Paused") {
   RunView(
     runState: .paused,
-    currentSession: CurrentSession(trainingDay: .day1)
+    currentSession: CurrentSession(trainingDay: .day01)
   )
 }
 
 #Preview("Finished") {
   RunView(
     runState: .finished,
-    currentSession: CurrentSession(trainingDay: .day1)
+    currentSession: CurrentSession(trainingDay: .day01)
   )
 }
