@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MenuView: View {
+struct BaseMenuView: View {
   @State var showTrainingDay = false
   @State var currentTrainingDay: TrainingDay = .day01
 
@@ -78,5 +78,5 @@ struct MenuView: View {
 }
 
 #Preview {
-  MenuView()
+  BaseMenuView()
 }

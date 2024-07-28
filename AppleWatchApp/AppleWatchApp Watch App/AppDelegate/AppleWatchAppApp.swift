@@ -14,7 +14,7 @@ struct AppleWatchApp_Watch_AppApp: App {
     @State var delegate = WKDelegate()
 
     WindowGroup {
-      MenuView()
+      BaseMenuView()
         .onAppear {
           session = WKExtendedRuntimeSession()
           session.delegate = delegate
@@ -24,7 +24,8 @@ struct AppleWatchApp_Watch_AppApp: App {
   }
 }
 
-// define the delegate and its methods
+/// Delegate for the WKExtendedRuntimeSession. Is necessary to keep
+/// the Apple Watch App from auto-closing. Works up to 1 hour.
 class WKDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
   func extendedRuntimeSession(
     _ extendedRuntimeSession: WKExtendedRuntimeSession,
@@ -35,10 +36,10 @@ class WKDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
   }
 
   func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-    print("did start")
+    print("Did start healthkit runtime session")
   }
 
   func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-    print("will expire")
+    print("Healthkit runtime session will expire")
   }
 }

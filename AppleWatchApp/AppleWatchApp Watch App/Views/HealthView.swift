@@ -15,7 +15,14 @@ struct HealthView: View {
   var body: some View {
     VStack {
       Text("Steps: \(steps)")
-      
+
+      Button(
+        action: getStepsData,
+        label: {
+          Text("Get Steps")
+        }
+      )
+
       Button(
         action: getHeartRate,
         label: {
@@ -25,7 +32,7 @@ struct HealthView: View {
       Text("Heart Rate: \(heartRate)")
     }
     .onAppear {
-      loadHealthData()
+      getStepsData()
     }
   }
 
@@ -51,7 +58,7 @@ struct HealthView: View {
     healthStore.execute(query)
   }
 
-  func loadHealthData() {
+  func getStepsData() {
     // Create custom HealthStore
     // Request permission from User. A standard iOS
     // HealthKit Permission Overlay will appear.
