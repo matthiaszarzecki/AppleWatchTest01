@@ -97,6 +97,28 @@ extension TrainingDay {
     ]
   )
 
+  // Custom
+  static let day08 = TrainingDay(
+    name: "Day 8 - 90s, 3min x3",
+    id: "day_08",
+    periods: [
+      Period(type: .warmUpWalk, duration: 90),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 180),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 180),
+      Period(type: .run, duration: 90),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 180),
+      Period(type: .windDownWalk, duration: 90)
+    ]
+  )
+
   static let day10 = TrainingDay(
     name: "Day 10 - 3min, 5min, x2",
     id: "day_10",
@@ -118,6 +140,7 @@ extension TrainingDay {
     .day01,
     .day02,
     .day07,
+    .day08,
     .day10
   ]
 }

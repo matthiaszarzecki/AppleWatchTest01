@@ -14,10 +14,14 @@ struct MenuView: View {
   @State var showHealthView = false
   @State var showLocationView = false
 
+  @AppStorage("completed_days")
+  var completedDays: [String] = []
+
   var body: some View {
     NavigationStack {
       List {
         ForEach(0..<TrainingDay.allDays.count, id: \.self) { index in
+          let runHasBeenFinishedBefore = completedDays.contains(where: { $0 == TrainingDay.allDays[index].id })
           Button(
             action: {
               currentTrainingDay = TrainingDay.allDays[index]
@@ -27,7 +31,7 @@ struct MenuView: View {
               ZStack {
                 LinearGradient.runAppGradient
                   .frame(height: 48)
-                Text(TrainingDay.allDays[index].name)
+                Text("\(TrainingDay.allDays[index].name) - \(runHasBeenFinishedBefore)")
               }
               .mask(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }

@@ -9,6 +9,26 @@ import Combine
 import HealthKit
 import SwiftUI
 
+extension Array: RawRepresentable where Element: Codable {
+  public init?(rawValue: String) {
+    guard let data = rawValue.data(using: .utf8),
+          let result = try? JSONDecoder().decode([Element].self, from: data)
+    else {
+      return nil
+    }
+    self = result
+  }
+
+  public var rawValue: String {
+    guard let data = try? JSONEncoder().encode(self),
+          let result = String(data: data, encoding: .utf8)
+    else {
+      return "[]"
+    }
+    return result
+  }
+}
+
 struct RunView: View {
   @State var runState: RunState = .hasNotStarted
   @State var currentSession: CurrentSession
@@ -19,6 +39,9 @@ struct RunView: View {
   @State private var currentDate: Date = .now
 
   @State private var heartRate: Double = 0
+
+  @AppStorage("completed_days")
+  var completedDays: [String] = []
 
   private let timer = Timer
     .publish(every: 1, on: .main, in: .common)
@@ -210,6 +233,7 @@ struct RunView: View {
         if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
           // Run is Finished
           runState = .finished
+          completedDays.append(currentSession.trainingDay.id)
         } else {
           currentPeriodIndex += 1
           if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
