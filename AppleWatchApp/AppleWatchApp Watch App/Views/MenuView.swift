@@ -10,37 +10,13 @@ import SwiftUI
 struct MenuView: View {
   @State var showTrainingDay = false
   @State var currentTrainingDay: TrainingDay = .day01
-  @State var steps: Double = 0
 
-  @StateObject var locationManager = LocationManager()
-
-  var userLatitude: String {
-    "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
-  }
-
-  var userLongitude: String {
-    "\(locationManager.lastLocation?.coordinate.longitude ?? 0)"
-  }
+  @State var showHealthView = false
+  @State var showLocationView = false
 
   var body: some View {
     NavigationStack {
       List {
-        Text("Steps: \(steps)")
-        Text("location status: \(locationManager.statusString)")
-        HStack {
-          Text("latitude: \(userLatitude)")
-          Text("longitude: \(userLongitude)")
-        }
-
-        Button(
-          action: {
-            locationManager.request()
-          },
-          label: {
-            Text("Request Location Access")
-          }
-        )
-
         ForEach(0..<TrainingDay.allDays.count, id: \.self) { index in
           Button(
             action: {
@@ -60,6 +36,24 @@ struct MenuView: View {
           .background(Color.black.ignoresSafeArea())
           .listRowBackground(Color.black)
         }
+
+        Button(
+          action: {
+            showHealthView = true
+          },
+          label: {
+            Text("Health")
+          }
+        )
+
+        Button(
+          action: {
+            showLocationView = true
+          },
+          label: {
+            Text("Location")
+          }
+        )
       }
       .listStyle(.carousel)
       .navigationDestination(isPresented: $showTrainingDay) {
@@ -69,53 +63,11 @@ struct MenuView: View {
           )
         )
       }
-    }
-    .onAppear {
-      loadData()
-    }
-  }
-
-  func loadData() {
-    // Create custom HealthStore
-    // Request permission from User. A standard iOS
-    // HealthKit Permission Overlay will appear.
-    HealthStore.shared.requestAuthorization { success in
-
-      // Permission Granted.
-      if success {
-
-        // Get actual data we want to display.
-        HealthStore.shared.calculateSteps { statisticsCollection in
-          if let statisticsCollection = statisticsCollection {
-
-            // Reset steps here for later fresh appending
-            //self.state.steps = [Step]()
-
-            //self.steps =
-            /*self.updateUIFromStatistics(
-              statisticsCollection: statisticsCollection
-            )*/
-
-            let startDate = Calendar.current.date(
-              byAdding: .day,
-              value: -6, to: Date()
-            )!
-            let endDate = Date()
-
-            statisticsCollection.enumerateStatistics(
-              from: startDate,
-              to: endDate
-            ) { statistics, stop in
-              let count = statistics.sumQuantity()?.doubleValue(for: .count())
-              self.steps = count ?? -1
-              /*let step = Step(
-               count: Int(count ?? 0),
-               date: statistics.startDate
-               )
-               self.state.steps.append(step)*/
-            }
-          }
-        }
+      .navigationDestination(isPresented: $showHealthView) {
+        HealthView()
+      }
+      .navigationDestination(isPresented: $showLocationView) {
+        LocationView()
       }
     }
   }
