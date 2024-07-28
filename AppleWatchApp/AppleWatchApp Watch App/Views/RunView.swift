@@ -6,28 +6,7 @@
 //
 
 import Combine
-import HealthKit
 import SwiftUI
-
-extension Array: RawRepresentable where Element: Codable {
-  public init?(rawValue: String) {
-    guard let data = rawValue.data(using: .utf8),
-          let result = try? JSONDecoder().decode([Element].self, from: data)
-    else {
-      return nil
-    }
-    self = result
-  }
-
-  public var rawValue: String {
-    guard let data = try? JSONEncoder().encode(self),
-          let result = String(data: data, encoding: .utf8)
-    else {
-      return "[]"
-    }
-    return result
-  }
-}
 
 struct RunView: View {
   @State var runState: RunState = .hasNotStarted
@@ -37,8 +16,6 @@ struct RunView: View {
   @State private var currentPeriodIndex = 0
   @State private var hasVibrated = false
   @State private var currentDate: Date = .now
-
-  @State private var heartRate: Double = 0
 
   @AppStorage("completed_days")
   var completedDays: [String] = []
@@ -55,72 +32,92 @@ struct RunView: View {
 
       VStack {
         if runState == .hasNotStarted {
-          Text(currentSession.trainingDay.name)
-          startButton
-
-          Button(
-            action: {
-              getHeartRate()
-            },
-            label: {
-              Text("Get Heart Rate")
+          VStack {
+            VStack {
+              Text(currentSession.trainingDay.name)
             }
-          )
-          Text("Heart Rate: \(heartRate)")
-        } else if runState == .inProgress {
-          HStack {
-            Image(systemName: "timer")
-              .font(.system(size: 42))
-              .foregroundStyle(.green)
+            .frame(width: width, height: heightUpperPart)
 
             VStack {
-              Text("Time Left: \(timeRemaining)s")
-              Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
+              startButton
             }
+            .frame(width: width, height: heightLowerPart)
           }
+          .background(.runAppGradient)
+        } else if runState == .inProgress {
 
-          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-            Text(period.description)
-              .foregroundStyle(period.color)
-              .font(.system(size: 20))
+          VStack {
+            VStack {
+              HStack {
+                Image(systemName: "timer")
+                  .font(.system(size: 42))
+                  .foregroundStyle(.green)
+
+                VStack {
+                  Text("Time Left: \(timeRemaining)s")
+                  Text("Interval: \(currentPeriodIndex + 1)/\(currentSession.trainingDay.periods.count)")
+                }
+              }
+
+              if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+                Text(period.description)
+                  .foregroundStyle(period.color)
+                  .font(.system(size: 20))
+              }
+            }
+            .frame(width: width, height: heightUpperPart)
+
+            VStack {
+              HStack {
+                Button(
+                  action: skipBackward,
+                  label: {
+                    Image(systemName: "arrow.left")
+                  }
+                )
+
+                Button(
+                  action: {
+                    runState = .paused
+                    vibrate()
+                  },
+                  label: {
+                    Image(systemName: "pause.fill")
+                  }
+                )
+
+                Button(
+                  action: startNextPeriodOrFinishRun,
+                  label: {
+                    Image(systemName: "arrow.right")
+                  }
+                )
+              }
+            }
+            .frame(width: width, height: heightLowerPart)
           }
-
-          HStack {
-            Button(
-              action: skipBackward,
-              label: {
-                Image(systemName: "arrow.left")
-              }
-            )
-
-            Button(
-              action: {
-                runState = .paused
-                vibrate()
-              },
-              label: {
-                Image(systemName: "pause.fill")
-              }
-            )
-
-            Button(
-              action: skipForward,
-              label: {
-                Image(systemName: "arrow.right")
-              }
-            )
-          }
+          .background(.runAppGradient)
         } else if runState == .paused {
-          Text("Run Paused")
-          Button(
-            action: {
-              runState = .inProgress
-              vibrate()
-            },
-            label: {
-              Text("Continue")
+          VStack {
+            VStack {
+              Text("Run Paused")
             }
-          )
+            .frame(width: width, height: heightUpperPart)
+
+            VStack {
+              Button(
+                action: {
+                  runState = .inProgress
+                  vibrate()
+                },
+                label: {
+                  Text("Continue")
+                }
+              )
+            }
+            .frame(width: width, height: heightLowerPart)
+          }
+          .background(Color.red)
         } else if runState == .finished {
           VStack {
             VStack {
@@ -199,20 +196,6 @@ struct RunView: View {
     vibrate()
   }
 
-  private func skipForward() {
-    if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
-      runState = .finished
-    } else {
-      currentPeriodIndex += 1
-      if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-        timeRemaining = Int(period.duration)
-      }
-    }
-
-    hasVibrated = false
-    vibrate()
-  }
-
   private func update(_ date: Date) {
     print(date)
     currentDate = date
@@ -226,44 +209,33 @@ struct RunView: View {
         currentSession.seconds += 1
       } else if timeRemaining <= 0 && !hasVibrated {
         // Timer Reached Zero - Set to next period
-        vibrate()
-        hasVibrated = true
-
-        // TODO: See if this actually works
-        if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
-          // Run is Finished
-          runState = .finished
-          completedDays.append(currentSession.trainingDay.id)
-        } else {
-          currentPeriodIndex += 1
-          if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
-            timeRemaining = Int(period.duration)
-          }
-        }
+        startNextPeriodOrFinishRun()
       }
     }
   }
 
-  private func getHeartRate() {
-    let healthStore = HKHealthStore()
-    let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
-    let date = Date()
-    let predicate = HKQuery.predicateForSamples(
-      withStart: date.addingTimeInterval(-60),
-      end: date,
-      options: .strictEndDate
-    )
-    let query = HKStatisticsQuery(
-      quantityType: heartRateType,
-      quantitySamplePredicate: predicate,
-      options: .discreteAverage
-    ) { _, result, _ in
-      guard let result = result, let quantity = result.averageQuantity() else {
-        return
-      }
-      heartRate = quantity.doubleValue(for: HKUnit(from: "count/min"))
+  private func startNextPeriodOrFinishRun() {
+    vibrate()
+
+    if currentPeriodIndex >= currentSession.trainingDay.periods.count - 1 {
+      // Run is finished - Finish it
+      finishRun()
+    } else {
+      // Run is not finished - move to next period
+      startNextPeriod()
     }
-    healthStore.execute(query)
+
+    func finishRun() {
+      runState = .finished
+      completedDays.append(currentSession.trainingDay.id)
+    }
+
+    func startNextPeriod() {
+      currentPeriodIndex += 1
+      if let period = currentSession.trainingDay.periods[safe: currentPeriodIndex] {
+        timeRemaining = Int(period.duration)
+      }
+    }
   }
 
   private func vibrate() {

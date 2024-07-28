@@ -5,18 +5,50 @@
 //  Created by Matthias Zarzecki on 28.07.24.
 //
 
+import HealthKit
 import SwiftUI
 
 struct HealthView: View {
   @State var steps: Double = 0
-  
+  @State private var heartRate: Double = 0
+
   var body: some View {
     VStack {
       Text("Steps: \(steps)")
+      
+      Button(
+        action: getHeartRate,
+        label: {
+          Text("Get Heart Rate")
+        }
+      )
+      Text("Heart Rate: \(heartRate)")
     }
     .onAppear {
       loadHealthData()
     }
+  }
+
+  private func getHeartRate() {
+    let healthStore = HKHealthStore()
+    let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+    let date = Date()
+    let predicate = HKQuery.predicateForSamples(
+      withStart: date.addingTimeInterval(-60),
+      end: date,
+      options: .strictEndDate
+    )
+    let query = HKStatisticsQuery(
+      quantityType: heartRateType,
+      quantitySamplePredicate: predicate,
+      options: .discreteAverage
+    ) { _, result, _ in
+      guard let result = result, let quantity = result.averageQuantity() else {
+        return
+      }
+      heartRate = quantity.doubleValue(for: HKUnit(from: "count/min"))
+    }
+    healthStore.execute(query)
   }
 
   func loadHealthData() {
