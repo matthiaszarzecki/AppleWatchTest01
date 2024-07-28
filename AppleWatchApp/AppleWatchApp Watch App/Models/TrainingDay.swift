@@ -97,10 +97,27 @@ extension TrainingDay {
     ]
   )
 
+  static let day10 = TrainingDay(
+    name: "Day 10 - 3min, 5min, x2",
+    id: "day_10",
+    periods: [
+      Period(type: .warmUpWalk, duration: 90),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 300),
+      Period(type: .intermediateWalk, duration: 150),
+      Period(type: .run, duration: 180),
+      Period(type: .intermediateWalk, duration: 90),
+      Period(type: .run, duration: 300),
+      Period(type: .windDownWalk, duration: 90)
+    ]
+  )
+
   static let allDays: [TrainingDay] = [
     .debugDay,
     .day01,
     .day02,
-    .day07
+    .day07,
+    .day10
   ]
 }
