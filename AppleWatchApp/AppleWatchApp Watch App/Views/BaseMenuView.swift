@@ -58,6 +58,15 @@ struct BaseMenuView: View {
             Text("Location")
           }
         )
+
+        Button(
+          action: {
+            completedDays = []
+          },
+          label: {
+            Text("Debug: Delete Done Runs")
+          }
+        )
       }
       .listStyle(.carousel)
       .navigationDestination(isPresented: $showTrainingDay) {

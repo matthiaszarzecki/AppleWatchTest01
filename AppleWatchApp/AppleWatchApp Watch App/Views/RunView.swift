@@ -227,7 +227,13 @@ struct RunView: View {
 
     func finishRun() {
       runState = .finished
-      completedDays.append(currentSession.trainingDay.id)
+
+      // Mark run as completed in storage
+      if !completedDays.contains(where: { element in
+        element == currentSession.trainingDay.id
+      }) {
+        completedDays.append(currentSession.trainingDay.id)
+      }
     }
 
     func startNextPeriod() {
